@@ -5,7 +5,7 @@ const IdeaCard = ({ idea }) => {
     return (
         <div className="group bg-[#0B1120] border border-white/10 rounded-3xl overflow-hidden hover:-translate-y-2 transition duration-300">
 
-            {/* Image */}
+
             <div className="overflow-hidden">
 
                 <img
@@ -16,10 +16,10 @@ const IdeaCard = ({ idea }) => {
 
             </div>
 
-            {/* Content */}
+
             <div className="p-6">
 
-                {/* Top */}
+
                 <div className="flex justify-between items-center mb-4">
 
                     <span className="bg-cyan-500/20 text-cyan-400 px-4 py-1 rounded-full text-sm">
@@ -32,12 +32,12 @@ const IdeaCard = ({ idea }) => {
 
                 </div>
 
-                {/* Title */}
+
                 <h2 className="text-2xl font-bold text-white">
                     {idea.title}
                 </h2>
 
-                {/* Description */}
+
                 <p className="text-gray-400 mt-4 leading-relaxed">
                     {idea.description}
                 </p>
