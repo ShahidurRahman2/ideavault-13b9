@@ -33,18 +33,17 @@ const IdeaDetailsPage = async ({ params }) => {
 
                 </div>
 
-                <div className="mt-12">
 
+
+                <div className="mt-12">
 
                     <span className="bg-cyan-500/20 text-cyan-400 px-5 py-2 rounded-full">
                         {idea.category}
                     </span>
 
-
                     <h1 className="text-5xl font-black mt-8">
                         {idea.title}
                     </h1>
-
 
                     <p className="text-gray-300 text-xl leading-relaxed mt-8">
                         {idea.description}
@@ -53,7 +52,6 @@ const IdeaDetailsPage = async ({ params }) => {
 
                     <div className="grid md:grid-cols-2 gap-8 mt-14">
 
-                        {/* Problem */}
                         <div className="bg-[#0B1120] border border-white/10 rounded-3xl p-8">
 
                             <h2 className="text-3xl font-bold mb-5 text-red-400">
@@ -81,10 +79,10 @@ const IdeaDetailsPage = async ({ params }) => {
 
                     </div>
 
-                    {/* Extra Info */}
+                    {/* Extra ..... */}
                     <div className="grid md:grid-cols-2 gap-8 mt-10">
 
-                        {/* Budget */}
+                        {/* Budget  .......*/}
                         <div className="bg-[#0B1120] border border-white/10 rounded-3xl p-8">
 
                             <h2 className="text-2xl font-bold text-cyan-400 mb-4">
