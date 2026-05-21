@@ -7,14 +7,14 @@ import IdeaCard from "@/components/IdeaCard";
 const IdeasPage = () => {
     const [ideas, setIdeas] = useState([]);
     const [search, setSearch] = useState("");
-
     const [category, setCategory] = useState("all");
 
     useEffect(() => {
+        // ১. এনভায়রনমেন্ট ভেরিয়েবল থেকে ব্যাকএন্ড ইউআরএল নেওয়া, না থাকলে লোকালহোস্ট ব্যাকআপ
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
         axios
-            .get(
-                `http://localhost:5000/ideas?search=${search}&category=${category}`
-            )
+            .get(`${backendUrl}/ideas?search=${search}&category=${category}`)
             .then((res) => {
                 setIdeas(res.data);
             })
@@ -39,11 +39,8 @@ const IdeasPage = () => {
                     </p>
                 </div>
 
-                {/* Search r Filter */}
+                {/* Search & Filter */}
                 <div className="flex flex-col md:flex-row gap-5 mb-14">
-
-
-
                     <input
                         type="text"
                         placeholder="Search by title..."
@@ -52,10 +49,7 @@ const IdeasPage = () => {
                         onChange={(e) => setSearch(e.target.value)}
                     />
 
-                    {/* Category Filter Dropdown ino */}
-
-
-
+                    {/* Category Filter Dropdown */}
                     <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
@@ -64,11 +58,10 @@ const IdeasPage = () => {
                         <option value="all" className="bg-[#0B1120]">All Categories</option>
                         <option value="FinTech" className="bg-[#0B1120]">FinTech</option>
                         <option value="Cybersecurity" className="bg-[#0B1120]">Cybersecurity</option>
-                        <option value="Ai" className="bg-[#0B1120]">AI & Automation</option> {/* value দিলেন "Ai" */}
-                        <option value="productivity" className="bg-[#0B1120]">SaaS & Productivity</option> {/* value দিলেন "productivity" */}
+                        <option value="Ai" className="bg-[#0B1120]">AI & Automation</option>
+                        <option value="productivity" className="bg-[#0B1120]">SaaS & Productivity</option>
                         <option value="HealthTech" className="bg-[#0B1120]">HealthTech</option>
                     </select>
-
                 </div>
 
                 {/* Cards Display */}
