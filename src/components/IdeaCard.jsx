@@ -1,8 +1,10 @@
 import Link from "next/link";
 
+
 const IdeaCard = ({ idea }) => {
 
     return (
+
         <div className="group bg-[#0B1120] border border-white/10 rounded-3xl overflow-hidden hover:-translate-y-2 transition duration-300">
 
 
@@ -53,6 +55,7 @@ const IdeaCard = ({ idea }) => {
             </div>
 
         </div>
+
     );
 };
 
