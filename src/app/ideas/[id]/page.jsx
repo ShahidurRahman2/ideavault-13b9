@@ -2,6 +2,8 @@ import PrivateRoute from "@/components/PrivateRoute";
 
 import CommentSection from "@/components/CommentSection";
 
+
+
 async function getIdea(id) {
 
     const res = await fetch(
@@ -21,7 +23,10 @@ async function getIdea(id) {
 
 const IdeaDetailsPage = async ({ params }) => {
 
-    const idea = await getIdea(params.id);
+
+    const resolvedParams = await params;
+
+    const idea = await getIdea(resolvedParams.id);
 
     return (
         <PrivateRoute>

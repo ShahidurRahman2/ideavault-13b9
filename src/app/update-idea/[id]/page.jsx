@@ -173,7 +173,7 @@ export default function UpdateIdeaPage() {
 
                         </div>
 
-                        {/* detailed description */}
+
                         <div>
 
                             <label className="block mb-3 font-semibold text-lg">
@@ -190,7 +190,7 @@ export default function UpdateIdeaPage() {
 
                         </div>
 
-                        {/* category */}
+
                         <div>
 
                             <label className="block mb-3 font-semibold text-lg">
@@ -215,7 +215,7 @@ export default function UpdateIdeaPage() {
 
                         </div>
 
-                        {/* image */}
+
                         <div>
 
                             <label className="block mb-3 font-semibold text-lg">
@@ -232,7 +232,7 @@ export default function UpdateIdeaPage() {
 
                         </div>
 
-                        {/* tags */}
+
                         <div>
 
                             <label className="block mb-3 font-semibold text-lg">
@@ -264,7 +264,7 @@ export default function UpdateIdeaPage() {
 
                         </div>
 
-                        {/* audience */}
+
                         <div>
 
                             <label className="block mb-3 font-semibold text-lg">
@@ -280,7 +280,6 @@ export default function UpdateIdeaPage() {
 
                         </div>
 
-                        {/* problem */}
                         <div>
 
                             <label className="block mb-3 font-semibold text-lg">
@@ -314,7 +313,7 @@ export default function UpdateIdeaPage() {
 
                         </div>
 
-                        {/* button */}
+
                         <button
                             className="w-full bg-cyan-500 hover:bg-cyan-600 transition py-4 rounded-2xl text-lg font-bold"
                         >

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
+
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -112,10 +113,12 @@ export default function Login() {
                         </div>
                     </div>
 
+                    <strong className="text-center mt-3 text-gray-400">forget password </strong>
+
                     {/* Login Button */}
                     <button
                         disabled={loading}
-                        className="w-full h-12 rounded-xl text-lg font-semibold text-white bg-cyan-500 hover:bg-cyan-600 transition disabled:opacity-50 flex items-center justify-center"
+                        className="w-full h-12 rounded-xl mt-3 text-lg font-semibold text-white bg-cyan-500 hover:bg-cyan-600 transition disabled:opacity-50 flex items-center justify-center"
                     >
                         {loading ? "Logging In..." : "Login"}
                     </button>
@@ -140,6 +143,8 @@ export default function Login() {
                 </button>
 
                 {/* Register Link */}
+
+
                 <p className="text-center mt-6 text-gray-400">
                     Don’t have an account?
                     <Link href="/register" className="text-cyan-400 font-bold hover:underline ml-2">

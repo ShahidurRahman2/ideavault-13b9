@@ -1,31 +1,58 @@
 "use client";
+
 import { useEffect, useState } from "react";
+
 import axios from "axios";
+
 import toast from "react-hot-toast";
+
 import Link from "next/link";
+
 import { authClient } from "@/lib/auth-client";
-import { FaTrash, FaEdit, } from "react-icons/fa";
+
+import { FaTrash, FaEdit } from "react-icons/fa";
+
 import PrivateRoute from "@/components/PrivateRoute";
 
 
+import { useRouter } from "next/navigation";
 
 export default function MyIdeasPage() {
 
-    const { data: session } = authClient.useSession();
+
+    const router = useRouter();
+
+    /* UPDATED */
+    const {
+        data: session,
+        isPending
+    } = authClient.useSession();
+
     const [ideas, setIdeas] = useState([]);
+
     const [loading, setLoading] = useState(true);
-
-
 
     useEffect(() => {
 
+        // session loading hole wait korbe
+        if (isPending) return;
+
+        // login user
         if (session?.user?.email) {
+
             fetchMyIdeas();
         }
 
-    }, [session]);
+        // not logged in
+        else {
 
+            setLoading(false);
 
+            /* NEWLY ADDED */
+            router.push("/login");
+        }
+
+    }, [session, isPending]);
 
     const fetchMyIdeas = async () => {
 
@@ -84,17 +111,23 @@ export default function MyIdeasPage() {
         }
     };
 
-    if (loading) {
+    /* UPDATED */
+    if (loading || isPending) {
 
         return (
+
             <div className="min-h-screen bg-[#050816] flex justify-center items-center text-white text-2xl">
+
                 Loading...
+
             </div>
         );
     }
 
     return (
+
         <PrivateRoute>
+
             <section className="min-h-screen bg-[#050816] text-white py-20 px-4">
 
                 <div className="max-w-7xl mx-auto">
@@ -103,15 +136,21 @@ export default function MyIdeasPage() {
                     <div className="text-center mb-14">
 
                         <p className="uppercase tracking-[5px] text-cyan-400 font-semibold">
+
                             Dashboard
+
                         </p>
 
                         <h1 className="text-5xl font-black mt-5">
+
                             My Startup Ideas
+
                         </h1>
 
                         <p className="text-gray-400 mt-6 text-lg">
+
                             Manage your submitted startup ideas.
+
                         </p>
 
                     </div>
@@ -119,9 +158,30 @@ export default function MyIdeasPage() {
                     {
                         ideas.length === 0 ? (
 
-                            <div className="text-center text-gray-400 text-xl">
+                            <div className="flex flex-col justify-center items-center py-20">
 
-                                No ideas found.
+                                <h2 className="text-3xl font-bold text-white mb-4">
+
+                                    No Data Added
+
+                                </h2>
+
+                                <p className="text-gray-400 text-lg mb-8 text-center">
+
+                                    You have not added any startup ideas yet.
+                                    <br />
+                                    Please go and add your idea.
+
+                                </p>
+
+                                <Link
+                                    href="/addIdea"
+                                    className="bg-cyan-500 hover:bg-cyan-600 transition px-8 py-3 rounded-xl font-semibold"
+                                >
+
+                                    Add Idea
+
+                                </Link>
 
                             </div>
 
@@ -150,17 +210,23 @@ export default function MyIdeasPage() {
                                                 <div className="flex justify-between items-center mb-4">
 
                                                     <span className="bg-cyan-500/20 text-cyan-400 px-4 py-1 rounded-full text-sm">
+
                                                         {idea.category}
+
                                                     </span>
 
                                                 </div>
 
                                                 <h2 className="text-2xl font-bold">
+
                                                     {idea.title}
+
                                                 </h2>
 
                                                 <p className="text-gray-400 mt-4 line-clamp-3">
+
                                                     {idea.description}
+
                                                 </p>
 
                                                 {/* buttons */}
@@ -208,6 +274,7 @@ export default function MyIdeasPage() {
                 </div>
 
             </section>
+
         </PrivateRoute>
     );
 }

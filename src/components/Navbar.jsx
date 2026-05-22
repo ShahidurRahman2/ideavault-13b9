@@ -1,53 +1,105 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
+
+import { useState, useEffect } from "react";
+
+import {
+    FaBars,
+    FaTimes,
+    FaSignOutAlt,
+    FaMoon,
+    FaSun
+} from "react-icons/fa";
+
 import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
 
+import { useTheme } from "next-themes";
+
 const Navbar = () => {
+
     const [open, setOpen] = useState(false);
+
+    const [mounted, setMounted] = useState(false);
+
     const router = useRouter();
 
+    const { theme, setTheme } = useTheme();
 
-    const { data: session, isPending } = authClient.useSession();
+    useEffect(() => {
+
+        setMounted(true);
+
+    }, []);
+
+    const { data: session, isPending } =
+        authClient.useSession();
+
     const user = session?.user;
 
     const userPhoto = user?.image;
 
-    // 💡 রিয়েল লগআউট ফাংশনালিটি (Better Auth SignOut)
+    // logout
     const handleLogout = async () => {
+
         try {
+
             await authClient.signOut({
+
                 fetchOptions: {
+
                     onSuccess: () => {
+
                         setOpen(false);
+
                         router.push("/login");
                     }
                 }
             });
-        } catch (error) {
+
+        }
+
+        catch (error) {
+
             console.error("Logout failed:", error);
         }
     };
 
     const navLinks = (
+
         <>
-            <Link href="/" onClick={() => setOpen(false)} className="hover:text-cyan-400 transition">
+
+            <Link
+                href="/"
+                onClick={() => setOpen(false)}
+                className="hover:text-cyan-400 transition"
+            >
                 Home
             </Link>
 
-            <Link href="/ideas" onClick={() => setOpen(false)} className="hover:text-cyan-400 transition">
+            <Link
+                href="/ideas"
+                onClick={() => setOpen(false)}
+                className="hover:text-cyan-400 transition"
+            >
                 Ideas
             </Link>
 
-            <Link href="/addIdea" onClick={() => setOpen(false)} className="hover:text-cyan-400 transition">
+            <Link
+                href="/addIdea"
+                onClick={() => setOpen(false)}
+                className="hover:text-cyan-400 transition"
+            >
                 Add Idea
             </Link>
 
-            <Link href="/myIdeas" onClick={() => setOpen(false)} className="hover:text-cyan-400 transition">
+            <Link
+                href="/myIdeas"
+                onClick={() => setOpen(false)}
+                className="hover:text-cyan-400 transition"
+            >
                 My Ideas
             </Link>
 
@@ -58,117 +110,262 @@ const Navbar = () => {
             >
                 My Interactions
             </Link>
+
         </>
     );
 
     return (
-        <nav className="bg-black text-white sticky top-0 z-50 border-b border-white/5">
+
+        <nav className="bg-[#0F172A] dark:bg-black text-black dark:text-white sticky top-0 z-50 border-b border-black/10 dark:border-white/5 transition">
+
             <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
 
                 {/* Logo */}
-                <Link href="/" className="text-3xl font-bold text-cyan-400 tracking-wide">
+                <Link
+                    href="/"
+                    className="text-3xl font-bold text-cyan-400 tracking-wide"
+                >
                     IdeaVault
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700 dark:text-gray-300">
+
                     {navLinks}
+
                 </div>
 
-                {/* Desktop Status Controls */}
+                {/* Right Side */}
                 <div className="hidden lg:flex items-center gap-4">
+
+                    {/* Theme Toggle */}
+                    {
+                        mounted && (
+
+                            <button
+                                onClick={() =>
+                                    setTheme(
+                                        theme === "dark"
+                                            ? "light"
+                                            : "dark"
+                                    )
+                                }
+
+                                className="w-11 h-11 rounded-full border border-black/10 dark:border-white/10 flex justify-center items-center hover:bg-black/5 dark:hover:bg-white/10 transition"
+                            >
+
+                                {
+                                    theme === "dark"
+                                        ? <FaSun className="text-yellow-400" />
+                                        : <FaMoon className="text-black" />
+                                }
+
+                            </button>
+                        )
+                    }
+
                     {isPending ? (
 
-                        <div className="w-10 h-10 rounded-full bg-white/10 animate-pulse"></div>
+                        <div className="w-10 h-10 rounded-full bg-black/10 dark:bg-white/10 animate-pulse"></div>
+
                     ) : user ? (
 
                         <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2 group relative" title={user.name}>
+
+                            <div
+                                className="flex items-center gap-2"
+                                title={user.name}
+                            >
+
                                 <img
                                     src={userPhoto}
                                     alt={user.name || "User Profile"}
-                                    className="w-10 h-10 rounded-full object-cover border-2 border-cyan-400/50 hover:border-cyan-400 transition"
+                                    className="w-10 h-10 rounded-full object-cover border-2 border-cyan-400/50"
                                     referrerPolicy="no-referrer"
                                 />
-                                <span className="text-sm font-medium text-gray-300 max-w-[120px] truncate">
+
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300 max-w-[120px] truncate">
+
                                     {user.name}
+
                                 </span>
+
                             </div>
 
                             <button
                                 onClick={handleLogout}
                                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/20 transition text-sm font-semibold"
                             >
-                                <FaSignOutAlt /> Logout
+
+                                <FaSignOutAlt />
+
+                                Logout
+
                             </button>
+
                         </div>
+
                     ) : (
 
                         <div className="flex items-center gap-3">
-                            <Link href="/login" className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-black font-semibold transition text-sm">
+
+                            <Link
+                                href="/login"
+                                className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-black font-semibold transition text-sm"
+                            >
                                 Login
                             </Link>
-                            <Link href="/register" className="px-5 py-2 rounded-lg border border-cyan-500 hover:bg-cyan-500 hover:text-black font-semibold transition text-sm">
+
+                            <Link
+                                href="/register"
+                                className="px-5 py-2 rounded-lg border border-cyan-500 hover:bg-cyan-500 hover:text-black font-semibold transition text-sm"
+                            >
                                 Register
                             </Link>
+
                         </div>
                     )}
+
                 </div>
 
-                {/* Mobile Trigger Button */}
-                <button onClick={() => setOpen(!open)} className="lg:hidden text-2xl text-gray-300 hover:text-cyan-400 transition">
+                {/* Mobile Trigger */}
+                <button
+                    onClick={() => setOpen(!open)}
+                    className="lg:hidden text-2xl text-gray-700 dark:text-gray-300"
+                >
+
                     {open ? <FaTimes /> : <FaBars />}
+
                 </button>
+
             </div>
 
             {/* Mobile Menu */}
-            {open && (
-                <div className="lg:hidden flex flex-col gap-5 px-5 pb-6 bg-black border-t border-white/5">
+            {
+                open && (
 
+                    <div className="lg:hidden flex flex-col gap-5 px-5 pb-6 bg-white dark:bg-black border-t border-black/10 dark:border-white/5">
 
-                    {!isPending && user && (
-                        <div className="flex items-center gap-3 py-3 border-b border-white/10">
-                            <img
-                                src={userPhoto}
-                                alt={user.name}
-                                className="w-11 h-11 rounded-full object-cover border-2 border-cyan-400"
-                                referrerPolicy="no-referrer"
-                            />
-                            <div>
-                                <h4 className="font-bold text-white text-sm">{user.name}</h4>
-                                <p className="text-xs text-gray-400">{user.email}</p>
+                        {/* Mobile Theme Toggle */}
+                        {
+                            mounted && (
+
+                                <button
+                                    onClick={() =>
+                                        setTheme(
+                                            theme === "dark"
+                                                ? "light"
+                                                : "dark"
+                                        )
+                                    }
+
+                                    className="w-full py-3 rounded-xl border border-black/10 dark:border-white/10 flex justify-center items-center gap-3 hover:bg-black/5 dark:hover:bg-white/10 transition"
+                                >
+
+                                    {
+                                        theme === "dark"
+                                            ? (
+                                                <>
+                                                    <FaSun />
+                                                    Light Mode
+                                                </>
+                                            )
+                                            : (
+                                                <>
+                                                    <FaMoon />
+                                                    Dark Mode
+                                                </>
+                                            )
+                                    }
+
+                                </button>
+                            )
+                        }
+
+                        {!isPending && user && (
+
+                            <div className="flex items-center gap-3 py-3 border-b border-black/10 dark:border-white/10">
+
+                                <img
+                                    src={userPhoto}
+                                    alt={user.name}
+                                    className="w-11 h-11 rounded-full object-cover border-2 border-cyan-400"
+                                    referrerPolicy="no-referrer"
+                                />
+
+                                <div>
+
+                                    <h4 className="font-bold text-sm">
+
+                                        {user.name}
+
+                                    </h4>
+
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+
+                                        {user.email}
+
+                                    </p>
+
+                                </div>
+
                             </div>
-                        </div>
-                    )}
-
-                    <div className="flex flex-col gap-4 text-gray-300 font-medium">
-                        {navLinks}
-                    </div>
-
-                    <div className="pt-2 flex flex-col gap-3">
-                        {isPending ? (
-                            <div className="h-10 w-full bg-white/10 animate-pulse rounded-lg"></div>
-                        ) : user ? (
-
-                            <button
-                                onClick={handleLogout}
-                                className="w-full px-5 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold flex items-center justify-center gap-2 transition"
-                            >
-                                <FaSignOutAlt /> Logout
-                            </button>
-                        ) : (
-                            <>
-                                <Link href="/login" onClick={() => setOpen(false)} className="px-5 py-2.5 rounded-lg bg-cyan-500 text-black font-semibold text-center transition">
-                                    Login
-                                </Link>
-                                <Link href="/register" onClick={() => setOpen(false)} className="px-5 py-2.5 rounded-lg border border-cyan-500 text-cyan-400 font-semibold text-center hover:bg-cyan-500 hover:text-black transition">
-                                    Register
-                                </Link>
-                            </>
                         )}
+
+                        <div className="flex flex-col gap-4 text-gray-700 dark:text-gray-300 font-medium">
+
+                            {navLinks}
+
+                        </div>
+
+                        <div className="pt-2 flex flex-col gap-3">
+
+                            {isPending ? (
+
+                                <div className="h-10 w-full bg-black/10 dark:bg-white/10 animate-pulse rounded-lg"></div>
+
+                            ) : user ? (
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full px-5 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold flex items-center justify-center gap-2 transition"
+                                >
+
+                                    <FaSignOutAlt />
+
+                                    Logout
+
+                                </button>
+
+                            ) : (
+
+                                <>
+
+                                    <Link
+                                        href="/login"
+                                        onClick={() => setOpen(false)}
+                                        className="px-5 py-2.5 rounded-lg bg-cyan-500 text-black font-semibold text-center transition"
+                                    >
+                                        Login
+                                    </Link>
+
+                                    <Link
+                                        href="/register"
+                                        onClick={() => setOpen(false)}
+                                        className="px-5 py-2.5 rounded-lg border border-cyan-500 text-cyan-400 font-semibold text-center hover:bg-cyan-500 hover:text-black transition"
+                                    >
+                                        Register
+                                    </Link>
+
+                                </>
+                            )}
+
+                        </div>
+
                     </div>
-                </div>
-            )}
+                )
+            }
+
         </nav>
     );
 };

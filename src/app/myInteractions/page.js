@@ -1,39 +1,62 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import axios from "axios";
+
 import toast from "react-hot-toast";
+
 import Link from "next/link";
+
 import { authClient } from "@/lib/auth-client";
-import { FaComments, FaClock, FaLightbulb, } from "react-icons/fa";
+
+import {
+    FaComments,
+    FaClock,
+    FaLightbulb,
+} from "react-icons/fa";
+
 import PrivateRoute from "@/components/PrivateRoute";
 
-
+/* NEWLY ADDED */
+import { useRouter } from "next/navigation";
 
 export default function MyInteractionsPage() {
 
-    const { data: session } = authClient.useSession();
+    /* NEWLY ADDED */
+    const router = useRouter();
+
+    /* UPDATED */
+    const {
+        data: session,
+        isPending
+    } = authClient.useSession();
 
     const [interactions, setInteractions] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
-
-
-
-
     useEffect(() => {
 
+        // session loading hole wait korbe
+        if (isPending) return;
+
+        // user logged in
         if (session?.user?.email) {
 
             fetchInteractions();
         }
 
-    }, [session]);
+        // user not logged in
+        else {
 
+            setLoading(false);
 
+            /* NEWLY ADDED */
+            router.push("/login");
+        }
 
-
+    }, [session, isPending]);
 
     const fetchInteractions = async () => {
 
@@ -58,26 +81,23 @@ export default function MyInteractionsPage() {
         }
     };
 
-
-
-
-
-    if (loading) {
+    /* UPDATED */
+    if (loading || isPending) {
 
         return (
+
             <div className="min-h-screen bg-[#050816] flex justify-center items-center text-white text-2xl">
+
                 Loading...
+
             </div>
         );
     }
 
-
-
-
-
-
     return (
+
         <PrivateRoute>
+
             <section className="min-h-screen bg-[#050816] text-white py-20 px-4">
 
                 <div className="max-w-6xl mx-auto">
@@ -86,15 +106,21 @@ export default function MyInteractionsPage() {
                     <div className="text-center mb-14">
 
                         <p className="uppercase tracking-[5px] text-cyan-400 font-semibold">
+
                             User Activity
+
                         </p>
 
                         <h1 className="text-5xl font-black mt-5">
+
                             My Interactions
+
                         </h1>
 
                         <p className="text-gray-400 mt-6 text-lg">
+
                             View your comments and engagement activity.
+
                         </p>
 
                     </div>
@@ -102,9 +128,30 @@ export default function MyInteractionsPage() {
                     {
                         interactions.length === 0 ? (
 
-                            <div className="text-center text-gray-400 text-xl">
+                            <div className="flex flex-col justify-center items-center py-20">
 
-                                No interactions found.
+                                <h2 className="text-3xl font-bold text-white mb-4">
+
+                                    No Interactions Found
+
+                                </h2>
+
+                                <p className="text-gray-400 text-lg mb-8 text-center">
+
+                                    You have not commented on any ideas yet.
+                                    <br />
+                                    Explore ideas and start interacting.
+
+                                </p>
+
+                                <Link
+                                    href="/ideas"
+                                    className="bg-cyan-500 hover:bg-cyan-600 transition px-8 py-3 rounded-xl font-semibold"
+                                >
+
+                                    Explore Ideas
+
+                                </Link>
 
                             </div>
 
@@ -128,7 +175,9 @@ export default function MyInteractionsPage() {
                                                     <FaLightbulb className="text-cyan-400 text-2xl" />
 
                                                     <h2 className="text-2xl font-bold">
+
                                                         {item.ideaTitle}
+
                                                     </h2>
 
                                                 </div>
@@ -143,13 +192,17 @@ export default function MyInteractionsPage() {
                                                     <FaComments className="text-cyan-400" />
 
                                                     <p className="font-semibold">
+
                                                         Your Comment
+
                                                     </p>
 
                                                 </div>
 
                                                 <p className="text-gray-300 leading-relaxed">
+
                                                     {item.comment}
+
                                                 </p>
 
                                             </div>
@@ -160,11 +213,13 @@ export default function MyInteractionsPage() {
                                                 <FaClock />
 
                                                 <p>
+
                                                     {
                                                         new Date(
                                                             item.createdAt
                                                         ).toLocaleString()
                                                     }
+
                                                 </p>
 
                                             </div>
@@ -172,7 +227,6 @@ export default function MyInteractionsPage() {
                                             {/* details */}
                                             <Link
                                                 href={`/ideas/${item.ideaId}`}
-
                                                 className="mt-8 inline-block bg-cyan-500 hover:bg-cyan-600 transition px-6 py-3 rounded-xl font-semibold"
                                             >
 
@@ -191,6 +245,7 @@ export default function MyInteractionsPage() {
                 </div>
 
             </section>
+
         </PrivateRoute>
     );
 }

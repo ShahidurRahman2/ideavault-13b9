@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import IdeaCard from "@/components/IdeaCard";
 
+
+
 const IdeasPage = () => {
     const [ideas, setIdeas] = useState([]);
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("all");
 
     useEffect(() => {
-        // ১. এনভায়রনমেন্ট ভেরিয়েবল থেকে ব্যাকএন্ড ইউআরএল নেওয়া, না থাকলে লোকালহোস্ট ব্যাকআপ
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
         axios
             .get(`${backendUrl}/ideas?search=${search}&category=${category}`)
@@ -56,10 +58,10 @@ const IdeasPage = () => {
                         className="bg-[#0B1120] text-white border border-white/10 rounded-xl px-5 py-4 outline-none cursor-pointer md:w-64 focus:border-cyan-400/55 transition-colors"
                     >
                         <option value="all" className="bg-[#0B1120]">All Categories</option>
-                        <option value="FinTech" className="bg-[#0B1120]">FinTech</option>
-                        <option value="Cybersecurity" className="bg-[#0B1120]">Cybersecurity</option>
-                        <option value="Ai" className="bg-[#0B1120]">AI & Automation</option>
-                        <option value="productivity" className="bg-[#0B1120]">SaaS & Productivity</option>
+                        <option value="Tech" className="bg-[#0B1120]">Tech</option>
+                        <option value="Education" className="bg-[#0B1120]">Education</option>
+                        <option value="Ai" className="bg-[#0B1120]">AI </option>
+                        <option value="productivity" className="bg-[#0B1120]">productivity</option>
                         <option value="HealthTech" className="bg-[#0B1120]">HealthTech</option>
                     </select>
                 </div>

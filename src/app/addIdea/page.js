@@ -193,8 +193,8 @@ export default function AddIdeaPage() {
                                         AI
                                     </option>
 
-                                    <option value="Technology">
-                                        Technology
+                                    <option value="Tech">
+                                        Tech
                                     </option>
 
                                     <option value="Health">
@@ -205,8 +205,8 @@ export default function AddIdeaPage() {
                                         Education
                                     </option>
 
-                                    <option value="Business">
-                                        Business
+                                    <option value="productivity">
+                                        productivity
                                     </option>
 
                                 </select>
