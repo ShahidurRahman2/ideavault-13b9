@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { FaTrash, FaEdit, } from "react-icons/fa";
+import PrivateRoute from "@/components/PrivateRoute";
 
 
 
@@ -93,118 +94,120 @@ export default function MyIdeasPage() {
     }
 
     return (
-        <section className="min-h-screen bg-[#050816] text-white py-20 px-4">
+        <PrivateRoute>
+            <section className="min-h-screen bg-[#050816] text-white py-20 px-4">
 
-            <div className="max-w-7xl mx-auto">
+                <div className="max-w-7xl mx-auto">
 
-                {/* top */}
-                <div className="text-center mb-14">
+                    {/* top */}
+                    <div className="text-center mb-14">
 
-                    <p className="uppercase tracking-[5px] text-cyan-400 font-semibold">
-                        Dashboard
-                    </p>
+                        <p className="uppercase tracking-[5px] text-cyan-400 font-semibold">
+                            Dashboard
+                        </p>
 
-                    <h1 className="text-5xl font-black mt-5">
-                        My Startup Ideas
-                    </h1>
+                        <h1 className="text-5xl font-black mt-5">
+                            My Startup Ideas
+                        </h1>
 
-                    <p className="text-gray-400 mt-6 text-lg">
-                        Manage your submitted startup ideas.
-                    </p>
+                        <p className="text-gray-400 mt-6 text-lg">
+                            Manage your submitted startup ideas.
+                        </p>
 
-                </div>
+                    </div>
 
-                {
-                    ideas.length === 0 ? (
+                    {
+                        ideas.length === 0 ? (
 
-                        <div className="text-center text-gray-400 text-xl">
+                            <div className="text-center text-gray-400 text-xl">
 
-                            No ideas found.
+                                No ideas found.
 
-                        </div>
+                            </div>
 
-                    ) : (
+                        ) : (
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                            {
-                                ideas.map((idea) => (
+                                {
+                                    ideas.map((idea) => (
 
-                                    <div
-                                        key={idea._id}
-                                        className="bg-[#0B1120] border border-white/10 rounded-3xl overflow-hidden"
-                                    >
+                                        <div
+                                            key={idea._id}
+                                            className="bg-[#0B1120] border border-white/10 rounded-3xl overflow-hidden"
+                                        >
 
-                                        {/* image */}
-                                        <img
-                                            src={idea.image}
-                                            alt={idea.title}
-                                            className="w-full h-56 object-cover"
-                                        />
+                                            {/* image */}
+                                            <img
+                                                src={idea.image}
+                                                alt={idea.title}
+                                                className="w-full h-56 object-cover"
+                                            />
 
-                                        {/* content */}
-                                        <div className="p-6">
+                                            {/* content */}
+                                            <div className="p-6">
 
-                                            <div className="flex justify-between items-center mb-4">
+                                                <div className="flex justify-between items-center mb-4">
 
-                                                <span className="bg-cyan-500/20 text-cyan-400 px-4 py-1 rounded-full text-sm">
-                                                    {idea.category}
-                                                </span>
+                                                    <span className="bg-cyan-500/20 text-cyan-400 px-4 py-1 rounded-full text-sm">
+                                                        {idea.category}
+                                                    </span>
 
-                                            </div>
+                                                </div>
 
-                                            <h2 className="text-2xl font-bold">
-                                                {idea.title}
-                                            </h2>
+                                                <h2 className="text-2xl font-bold">
+                                                    {idea.title}
+                                                </h2>
 
-                                            <p className="text-gray-400 mt-4 line-clamp-3">
-                                                {idea.description}
-                                            </p>
+                                                <p className="text-gray-400 mt-4 line-clamp-3">
+                                                    {idea.description}
+                                                </p>
 
-                                            {/* buttons */}
-                                            <div className="flex gap-4 mt-8">
+                                                {/* buttons */}
+                                                <div className="flex gap-4 mt-8">
 
-                                                {/* update */}
-                                                <Link
-                                                    href={`/update-idea/${idea._id}`}
-                                                    className="flex-1 bg-cyan-500 hover:bg-cyan-600 transition py-3 rounded-xl font-semibold flex justify-center items-center gap-2"
-                                                >
+                                                    {/* update */}
+                                                    <Link
+                                                        href={`/update-idea/${idea._id}`}
+                                                        className="flex-1 bg-cyan-500 hover:bg-cyan-600 transition py-3 rounded-xl font-semibold flex justify-center items-center gap-2"
+                                                    >
 
-                                                    <FaEdit />
+                                                        <FaEdit />
 
-                                                    Update
+                                                        Update
 
-                                                </Link>
+                                                    </Link>
 
-                                                {/* delete */}
-                                                <button
-                                                    onClick={() =>
-                                                        handleDelete(idea._id)
-                                                    }
+                                                    {/* delete */}
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDelete(idea._id)
+                                                        }
 
-                                                    className="flex-1 bg-red-500 hover:bg-red-600 transition py-3 rounded-xl font-semibold flex justify-center items-center gap-2"
-                                                >
+                                                        className="flex-1 bg-red-500 hover:bg-red-600 transition py-3 rounded-xl font-semibold flex justify-center items-center gap-2"
+                                                    >
 
-                                                    <FaTrash />
+                                                        <FaTrash />
 
-                                                    Delete
+                                                        Delete
 
-                                                </button>
+                                                    </button>
+
+                                                </div>
 
                                             </div>
 
                                         </div>
+                                    ))
+                                }
 
-                                    </div>
-                                ))
-                            }
+                            </div>
+                        )
+                    }
 
-                        </div>
-                    )
-                }
+                </div>
 
-            </div>
-
-        </section>
+            </section>
+        </PrivateRoute>
     );
 }
