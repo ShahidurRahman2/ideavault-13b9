@@ -1,28 +1,23 @@
 "use client";
-
 import { useState } from "react";
-
 import axios from "axios";
-
 import toast from "react-hot-toast";
-
 import { useRouter } from "next/navigation";
-
+import { authClient } from "@/lib/auth-client";
 import {
-    FaLightbulb,
-    FaTags,
-    FaImage,
-    FaDollarSign,
-    FaUsers,
-    FaExclamationTriangle,
-    FaCheckCircle,
+    FaLightbulb, FaTags, FaImage, FaDollarSign, FaUsers,
+    FaExclamationTriangle, FaCheckCircle,
 } from "react-icons/fa";
 import PrivateRoute from "@/components/PrivateRoute";
+
+
+
+
 
 export default function AddIdeaPage() {
 
     const router = useRouter();
-
+    const { data: session } = authClient.useSession();
     const [loading, setLoading] = useState(false);
 
     const handleAddIdea = async (e) => {
@@ -54,6 +49,11 @@ export default function AddIdeaPage() {
             solution: form.solution.value,
 
             createdAt: new Date(),
+            userEmail: session?.user?.email,
+
+            userName: session?.user?.name,
+
+            userImage: session?.user?.image,
         };
 
         try {
