@@ -34,7 +34,7 @@ export default function UpdateIdeaPage() {
         try {
 
             const res = await axios.get(
-                `http://localhost:5000/ideas/${id}`
+                `https://ideavault-13b9-server.vercel.app/ideas/${id}`
             );
 
             setIdea(res.data);

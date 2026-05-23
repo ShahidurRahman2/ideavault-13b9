@@ -15,7 +15,7 @@ const Banner = () => {
     // API থেকে ডেটা ফেচিং
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/banners?t=${new Date().getTime()}`)
+            .get(`https://ideavault-13b9-server.vercel.app/banners?t=${new Date().getTime()}`)
             .then((res) => {
                 setSlides(res.data || []);
                 setLoading(false);

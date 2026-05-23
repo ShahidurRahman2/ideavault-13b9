@@ -7,7 +7,7 @@ import CommentSection from "@/components/CommentSection";
 async function getIdea(id) {
 
     const res = await fetch(
-        `http://localhost:5000/ideas/${id}`,
+        `https://ideavault-13b9-server.vercel.app/ideas/${id}`,
         {
             cache: "no-store",
         }

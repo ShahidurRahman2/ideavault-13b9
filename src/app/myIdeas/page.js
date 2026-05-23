@@ -59,7 +59,7 @@ export default function MyIdeasPage() {
         try {
 
             const res = await axios.get(
-                `http://localhost:5000/my-ideas?email=${session?.user?.email}`
+                `https://ideavault-13b9-server.vercel.app/my-ideas?email=${session?.user?.email}`
             );
 
             setIdeas(res.data);

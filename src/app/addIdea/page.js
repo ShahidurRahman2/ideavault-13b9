@@ -61,7 +61,7 @@ export default function AddIdeaPage() {
             setLoading(true);
 
             const res = await axios.post(
-                "http://localhost:5000/ideas",
+                "https://ideavault-13b9-server.vercel.app/ideas",
                 ideaData
             );
 

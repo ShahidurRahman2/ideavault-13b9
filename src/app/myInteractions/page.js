@@ -63,7 +63,7 @@ export default function MyInteractionsPage() {
         try {
 
             const res = await axios.get(
-                `http://localhost:5000/my-interactions?email=${session?.user?.email}`
+                `https://ideavault-13b9-server.vercel.app/my-interactions?email=${session?.user?.email}`
             );
 
             setInteractions(res.data);

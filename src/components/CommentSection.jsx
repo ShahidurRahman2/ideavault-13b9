@@ -28,7 +28,7 @@ export default function CommentSection({ idea }) {
         try {
 
             const res = await axios.get(
-                `http://localhost:5000/comments/${idea._id}`
+                `https://ideavault-13b9-server.vercel.app/comments/${idea._id}`
             );
 
             setComments(res.data);
